@@ -2,9 +2,14 @@
 <html>
 <head>
     <title>Number Quiz</title>
+    <link rel="stylesheet" href="resources/quiz.css">
 </head>
 <body>
-<h1>Awesome number tests.</h1>
-<button>Begin</button>
+<header><h1>Awesome number tests. Ready?</h1></header>
+<main>
+    <form method="post" action="${pageContext.request.contextPath}/quiz">
+        <input type="submit" id="start-button" value="Begin">
+    </form>
+</main>
 </body>
 </html>

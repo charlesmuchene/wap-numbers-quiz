@@ -1,0 +1,23 @@
+main {
+    width: 40%;
+    margin: auto;
+    text-align: center;
+}
+
+#start-button {
+    border-radius: 10px;
+    margin-top: 10px;
+    border: none;
+    color: white;
+    width: 100px;
+    background-color: #4CAF50;
+    padding: 10px 10px;
+    text-align: center;
+    font-size: 16px;
+    box-shadow: 2px 2px 2px 2px #e7e7e7;
+}
+
+header {
+    margin-top: 10px;
+    text-align: center;
+}

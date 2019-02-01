@@ -7,15 +7,15 @@ package com.charlesmuchene.quiz.data;
  */
 public class ApplicationState {
 
-    private int currentQuestion = 1;
+    private int currentQuestion = 0;
     private int score = 0;
 
-    public int getCurrentQuestion() {
-        return currentQuestion;
+    public int getNextQuestionNumber() {
+        return ++currentQuestion;
     }
 
-    public void setNextQuestion() {
-        this.currentQuestion++;
+    public int getCurrentQuestionNumber() {
+        return currentQuestion == 0 ? 1 : currentQuestion;
     }
 
     public int getScore() {

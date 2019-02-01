@@ -22,7 +22,10 @@ public interface View {
 
     /**
      * Display incorrect answer
+     *
+     * @param text  Question to display
+     * @param score Running score to display
      */
-    void displayIncorrectAnswer();
+    void displayIncorrectAnswer(String text, int score);
 
 }

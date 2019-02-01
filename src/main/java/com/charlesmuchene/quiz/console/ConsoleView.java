@@ -25,8 +25,8 @@ public class ConsoleView implements View {
     }
 
     @Override
-    public void displayIncorrectAnswer() {
-        String text = System.lineSeparator() + "Incorrect answer!" + System.lineSeparator();
-        System.err.println(text);
+    public void displayIncorrectAnswer(String text, int score) {
+        String output = System.lineSeparator() + "Incorrect answer!" + System.lineSeparator();
+        System.err.println(output);
     }
 }

@@ -70,7 +70,7 @@ class QuizControllerTest {
 
         controller.validateAnswer(possibleAnswer);
 
-        verify(view, times(0)).displayIncorrectAnswer();
+        verify(view, times(0)).displayIncorrectAnswer(anyString(), anyInt());
     }
 
 }
