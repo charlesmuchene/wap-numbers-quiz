@@ -11,7 +11,6 @@ import com.charlesmuchene.quiz.utilties.NoSuchQuestionException;
 public class Quiz {
 
     private final QuestionDAO questionDao;
-    private final int totalQuestions;
 
     /**
      * Quiz constructor
@@ -20,21 +19,17 @@ public class Quiz {
      */
     public Quiz(QuestionDAO questionDao) {
         this.questionDao = questionDao;
-        this.totalQuestions = questionDao.size();
     }
 
     /**
      * Get the next question
      *
-     * @param currentQuestion Current question number
+     * @param number Question number to retrieve
      * @return Next {@link Question} to ask
-     * @throws NoSuchQuestionException when there are no more questions to ask
+     * @throws NoSuchQuestionException when there is no question with that number
      */
-    public Question getNextQuestion(int currentQuestion) throws NoSuchQuestionException {
-        int nextQuestion = currentQuestion + 1;
-        if (nextQuestion < totalQuestions)
-            return questionDao.getQuestionWithNumber(nextQuestion);
-        throw new NoSuchQuestionException();
+    public Question getNextQuestion(int number) throws NoSuchQuestionException {
+        return questionDao.getQuestionWithNumber(number);
     }
 
 }

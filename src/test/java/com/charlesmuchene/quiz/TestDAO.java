@@ -5,10 +5,11 @@ import com.charlesmuchene.quiz.models.Question;
 import com.charlesmuchene.quiz.utilties.NoSuchQuestionException;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class TestDAO implements QuestionDAO {
 
-    private Map<Integer, Question> map = new HashMap<Integer, Question>() {
+    private Map<Integer, Question> map = new ConcurrentHashMap<Integer, Question>() {
         {
             put(1, new Question(1, "[3, 1, 4, 1, 5, ? ]", 9));
             put(2, new Question(2, "[1, 1, 2, 3, 5, ? ]", 8));
@@ -17,7 +18,7 @@ public class TestDAO implements QuestionDAO {
     };
 
     @Override
-    public Question getQuestionWithNumber(int number) throws NoSuchQuestionException {
+    public synchronized Question getQuestionWithNumber(int number) throws NoSuchQuestionException {
         if (number >= map.size()) throw new NoSuchQuestionException();
         return map.get(number);
     }
