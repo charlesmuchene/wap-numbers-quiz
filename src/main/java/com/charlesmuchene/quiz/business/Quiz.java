@@ -1,4 +1,4 @@
-package com.charlesmuchene.quiz.controllers;
+package com.charlesmuchene.quiz.business;
 
 import com.charlesmuchene.quiz.data.ApplicationState;
 import com.charlesmuchene.quiz.data.QuestionDAO;
@@ -8,22 +8,22 @@ import com.charlesmuchene.quiz.views.View;
 import java.util.Optional;
 
 /**
- * Quiz Controller
+ * Quiz logic
  */
-public class QuizController {
+public class Quiz {
 
     private final ApplicationState state;
     private final QuestionDAO dao;
     private View view;
 
     /**
-     * QuizController constructor
+     * Quiz constructor
      *
      * @param view        {@link View} implementation
      * @param questionDAO {@link QuestionDAO} implementation
      * @param state       {@link ApplicationState} implementation
      */
-    public QuizController(View view, QuestionDAO questionDAO, ApplicationState state) {
+    public Quiz(View view, QuestionDAO questionDAO, ApplicationState state) {
         this.view = view;
         this.state = state;
         this.dao = questionDAO;
@@ -64,8 +64,7 @@ public class QuizController {
      * Display the question with the given number
      *
      * @param number Question number
-     * @return {@code true} if there was a question to display
-     * * otherwise {@code false}
+     * @return {@code true} if there was a question to display otherwise {@code false}
      */
     private boolean displayQuestionWith(int number) {
         int score = state.getScore();
@@ -96,7 +95,7 @@ public class QuizController {
      * @param question Question to display
      */
     private void displayQuestion(int score, Question question) {
-        view.displayText(question.getQuestionText(), score);
+        view.displayQuestionText(question.getQuestionText(), score);
     }
 
     /**
@@ -104,17 +103,14 @@ public class QuizController {
      * with the given question number.
      *
      * @param answer Possible answer for the question
+     * @return {@code true} if the answer is valid {@code false} otherwise
      */
-    public void validateAnswer(int answer) {
+    public boolean validateAnswer(int answer) {
         int currentQuestion = state.getCurrentQuestionNumber();
         Optional<Question> question = dao.getQuestionWithNumber(currentQuestion);
         boolean isCorrect = question.filter(query -> query.getAnswer() == answer).isPresent();
-        if (isCorrect) {
-            state.incrementScore();
-        } else {
-            String text = question.isPresent() ? question.get().getQuestionText() : "";
-            view.displayIncorrectAnswer(text, state.getScore());
-        }
+        if (isCorrect) state.incrementScore();
+        return isCorrect;
     }
 
     /**
@@ -122,5 +118,38 @@ public class QuizController {
      */
     public void resetState() {
         state.reset();
+    }
+
+    /**
+     * Sanitize user input
+     *
+     * @param input User input
+     * @return {@link Optional} sanitized input
+     */
+    public Optional<Integer> sanitizeInput(String input) {
+        try {
+            return Optional.of(Integer.parseInt(input));
+        } catch (NumberFormatException exception) {
+            return Optional.empty();
+        }
+    }
+
+    /**
+     * Display input as invalid
+     */
+    public void displayInvalidInput() {
+        int questionNumber = state.getCurrentQuestionNumber();
+        getQuestion(questionNumber).ifPresent((question) ->
+                view.displayInputAsInvalid(question.getQuestionText(), state.getScore()));
+    }
+
+    /**
+     * Display incorrect answer
+     */
+    public void displayIncorrectAnswer() {
+        int currentQuestionNumber = state.getCurrentQuestionNumber();
+        Optional<Question> question = dao.getQuestionWithNumber(currentQuestionNumber);
+        String text = question.isPresent() ? question.get().getQuestionText() : "";
+        view.displayIncorrectAnswer(text, state.getScore());
     }
 }

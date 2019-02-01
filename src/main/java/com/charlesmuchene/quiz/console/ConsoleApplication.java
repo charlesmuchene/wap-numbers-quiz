@@ -1,11 +1,12 @@
 package com.charlesmuchene.quiz.console;
 
-import com.charlesmuchene.quiz.controllers.QuizController;
+import com.charlesmuchene.quiz.business.Quiz;
 import com.charlesmuchene.quiz.data.ApplicationState;
 import com.charlesmuchene.quiz.data.InMemoryData;
 import com.charlesmuchene.quiz.data.QuestionDAO;
 import com.charlesmuchene.quiz.views.View;
 
+import java.util.Optional;
 import java.util.Scanner;
 
 /**
@@ -15,16 +16,16 @@ import java.util.Scanner;
  */
 public class ConsoleApplication {
 
-    private final QuizController controller;
+    private final Quiz quiz;
     private final Scanner scanner;
 
     /**
      * Constructor
      *
-     * @param controller {@link QuizController} instance
+     * @param quiz {@link Quiz} instance
      */
-    private ConsoleApplication(QuizController controller) {
-        this.controller = controller;
+    private ConsoleApplication(Quiz quiz) {
+        this.quiz = quiz;
         this.scanner = new Scanner(System.in);
     }
 
@@ -35,10 +36,10 @@ public class ConsoleApplication {
      * {@code false} otherwise
      */
     private boolean showNextQuestion() {
-        boolean hasNextQuestion = controller.displayNextQuestion();
+        boolean hasNextQuestion = quiz.displayNextQuestion();
         if (!hasNextQuestion) {
             scanner.close();
-            controller.resetState();
+            quiz.resetState();
         }
         return hasNextQuestion;
     }
@@ -49,7 +50,7 @@ public class ConsoleApplication {
      * @param answer Answer to validate
      */
     private void validateAnswer(int answer) {
-        controller.validateAnswer(answer);
+        quiz.validateAnswer(answer);
     }
 
     /**
@@ -63,16 +64,10 @@ public class ConsoleApplication {
         int answer;
         while (true) {
             String line = scanner.nextLine();
-            try {
-                answer = Integer.parseInt(line);
+            Optional<Integer> input = quiz.sanitizeInput(line);
+            if (input.isPresent()) {
+                answer = input.get();
                 break;
-            } catch (NumberFormatException exception) {
-                String text = System.lineSeparator() + "Invalid answer!";
-                System.err.println(text);
-                text = System.lineSeparator() +
-                        "Try again. (Enter answer as a number)" +
-                        System.lineSeparator() + "Your answer: ";
-                System.out.print(text);
             }
         }
         return answer;
@@ -82,7 +77,7 @@ public class ConsoleApplication {
         View consoleView = new ConsoleView();
         QuestionDAO questionDAO = new InMemoryData();
         ApplicationState applicationState = new ApplicationState();
-        QuizController controller = new QuizController(consoleView, questionDAO, applicationState);
+        Quiz controller = new Quiz(consoleView, questionDAO, applicationState);
         ConsoleApplication application = new ConsoleApplication(controller);
 
         while (true) {

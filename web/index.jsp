@@ -8,7 +8,7 @@
 <header><h1>Awesome number tests. Ready?</h1></header>
 <main>
     <form method="post" action="${pageContext.request.contextPath}/quiz">
-        <input type="submit" id="start-button" value="Begin">
+        <input type="submit" id="start-button" value="Begin" name="start">
     </form>
 </main>
 </body>

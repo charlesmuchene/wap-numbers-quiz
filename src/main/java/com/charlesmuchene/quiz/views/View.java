@@ -6,12 +6,12 @@ package com.charlesmuchene.quiz.views;
 public interface View {
 
     /**
-     * Display the given text and score
+     * Display the given question text and score
      *
      * @param text  Question to display
      * @param score Running score to display
      */
-    void displayText(String text, int score);
+    void displayQuestionText(String text, int score);
 
     /**
      * Display no more questions
@@ -27,5 +27,13 @@ public interface View {
      * @param score Running score to display
      */
     void displayIncorrectAnswer(String text, int score);
+
+    /**
+     * Display that input is invalid
+     *
+     * @param text  Question to display
+     * @param score Running score to display
+     */
+    void displayInputAsInvalid(String text, int score);
 
 }

@@ -1,6 +1,6 @@
 package com.charlesmuchene.quiz.servlets;
 
-import com.charlesmuchene.quiz.controllers.QuizController;
+import com.charlesmuchene.quiz.business.Quiz;
 import com.charlesmuchene.quiz.data.ApplicationState;
 import com.charlesmuchene.quiz.data.InMemoryData;
 import com.charlesmuchene.quiz.data.QuestionDAO;
@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Optional;
 
 /**
  * Quiz Servlet
@@ -19,14 +20,14 @@ import java.io.IOException;
 public class QuizServlet extends HttpServlet {
 
     private static final String SAME_REQUEST = "same_request";
-    private QuizController controller;
+    private Quiz quiz;
 
     @Override
     public void init() throws ServletException {
         super.init();
         QuestionDAO dao = new InMemoryData();
         ApplicationState state = new ApplicationState();
-        controller = new QuizController(null, dao, state);
+        quiz = new Quiz(null, dao, state);
     }
 
     @Override
@@ -37,12 +38,36 @@ public class QuizServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        quiz.setView(new ServletView(response.getWriter()));
+        boolean start = request.getParameterMap().containsKey("start");
         Object sameRequest = request.getAttribute(SAME_REQUEST);
-        controller.setView(new ServletView(response.getWriter()));
-        boolean nextQuestion = sameRequest == null? controller.displayCurrentQuestion() : controller.displayNextQuestion();
-        if (!nextQuestion) {
-            controller.resetState();
-            System.out.println("Done with the questions");
+        if (!start) {
+            String input = request.getParameter("answer");
+            if (input != null) {
+                validateAnswer(input, sameRequest);
+                return;
+            }
         }
+        displayQuestion(sameRequest);
+    }
+
+    private void displayQuestion(Object sameRequest) {
+        boolean nextQuestion = sameRequest == null ? quiz.displayNextQuestion() : quiz.displayCurrentQuestion();
+        if (!nextQuestion) quiz.resetState();
+    }
+
+    /**
+     * Validate user's answer
+     *
+     * @param input       Input
+     * @param sameRequest Same request
+     */
+    private void validateAnswer(String input, Object sameRequest) {
+        Optional<Integer> answer = quiz.sanitizeInput(input);
+        if (answer.isPresent()) {
+            boolean isCorrect = quiz.validateAnswer(answer.get());
+            if (isCorrect) displayQuestion(sameRequest);
+            else quiz.displayIncorrectAnswer();
+        } else quiz.displayInvalidInput();
     }
 }

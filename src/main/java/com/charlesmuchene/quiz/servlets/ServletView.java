@@ -16,8 +16,8 @@ public class ServletView implements View {
     }
 
     @Override
-    public void displayText(String text, int score) {
-        showQuestion(text, score, false);
+    public void displayQuestionText(String text, int score) {
+        showQuestion(text, score, false, false);
     }
 
     @Override
@@ -27,16 +27,23 @@ public class ServletView implements View {
         out.print("<title>NumberQuiz</title> ");
         out.print("</head> ");
         out.print("<body> ");
-        out.print("<p style='color:red'>The number quiz is over!</p>");
+        out.print("<p style='color:green;'>Quiz is over!</p>");
         out.print("<p>Your current score is: ");
+        out.print("<span style='font-weight: bold'>");
         out.print(score);
+        out.print("</span>");
         out.print("</body>");
         out.print("</html> ");
     }
 
     @Override
     public void displayIncorrectAnswer(String text, int score) {
-        showQuestion(text, score, true);
+        showQuestion(text, score, true, false);
+    }
+
+    @Override
+    public void displayInputAsInvalid(String text, int score) {
+        showQuestion(text, score, false, true);
     }
 
     /**
@@ -44,10 +51,10 @@ public class ServletView implements View {
      *
      * @param text                Question text to display
      * @param score               Running score
-     * @param showIncorrectAnswer {@code true} to show incorrect answer
-     *                            {@code false} otherwise
+     * @param showIncorrectAnswer {@code true} to show incorrect answer {@code false} otherwise
+     * @param showInvalidInput    {@code true} to show invalid input {@code false} otherwise
      */
-    private void showQuestion(String text, int score, boolean showIncorrectAnswer) {
+    private void showQuestion(String text, int score, boolean showIncorrectAnswer, boolean showInvalidInput) {
         out.print("<html>");
         out.print("<head>");
         out.print("	<title>NumberQuiz</title>");
@@ -63,8 +70,11 @@ public class ServletView implements View {
         if (showIncorrectAnswer)
             out.print("<p style='color:red'>Incorrect answer! Please try again</p> ");
 
-        out.print("<p>Your answer:<input type='text' name='txtAnswer' value='' /></p> ");
-        out.print("<p><input type='submit' name='btnNext' value='Next' /></p> ");
+        if (showInvalidInput)
+            out.print("<p style='color:red'>Invalid input! Please try again</p> ");
+
+        out.print("<p>Your answer:<input type='text' name='answer' value='' /></p> ");
+        out.print("<p><input type='submit' name='next' value='Next' /></p> ");
         out.print("</form>");
         out.print("</body></html>");
     }

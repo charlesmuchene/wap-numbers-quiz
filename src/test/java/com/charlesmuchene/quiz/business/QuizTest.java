@@ -1,4 +1,4 @@
-package com.charlesmuchene.quiz.controllers;
+package com.charlesmuchene.quiz.business;
 
 import com.charlesmuchene.quiz.data.ApplicationState;
 import com.charlesmuchene.quiz.data.QuestionDAO;
@@ -14,9 +14,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
 
-class QuizControllerTest {
+class QuizTest {
 
-    private QuizController controller;
+    private Quiz controller;
 
     private View view = mock(View.class);
     private QuestionDAO dao = mock(QuestionDAO.class);
@@ -25,7 +25,7 @@ class QuizControllerTest {
 
     @BeforeEach
     void setUp() {
-        controller = new QuizController(view, dao, state);
+        controller = new Quiz(view, dao, state);
     }
 
     @Test
@@ -59,7 +59,7 @@ class QuizControllerTest {
         boolean isQuestionDisplayed = controller.displayNextQuestion();
 
         assertTrue(isQuestionDisplayed);
-        verify(view).displayText(anyString(), anyInt());
+        verify(view).displayQuestionText(anyString(), anyInt());
     }
 
     @Test
@@ -73,4 +73,18 @@ class QuizControllerTest {
         verify(view, times(0)).displayIncorrectAnswer(anyString(), anyInt());
     }
 
+    @Test
+    void sanitizeUserInput() {
+        String input = "invalid";
+
+        Optional<Integer> sanitizedInput = controller.sanitizeInput(input);
+
+        assertFalse(sanitizedInput.isPresent());
+
+        input = "10";
+
+        sanitizedInput = controller.sanitizeInput(input);
+
+        assertTrue(sanitizedInput.isPresent());
+    }
 }
