@@ -17,7 +17,7 @@ import java.util.Optional;
  * Quiz Servlet
  */
 @WebServlet(name = "Quiz", urlPatterns = "/quiz")
-public class QuizServlet extends HttpServlet {
+public class ServletApplication extends HttpServlet {
 
     private static final String SAME_REQUEST = "same_request";
     private Quiz quiz;
