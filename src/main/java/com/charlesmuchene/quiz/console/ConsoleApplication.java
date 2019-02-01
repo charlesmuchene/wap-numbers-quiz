@@ -66,6 +66,8 @@ public class ConsoleApplication {
             if (input.isPresent()) {
                 answer = input.get();
                 break;
+            } else {
+                quiz.displayInvalidInput();
             }
         }
         return answer;
