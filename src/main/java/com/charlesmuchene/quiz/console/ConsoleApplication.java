@@ -54,9 +54,7 @@ public class ConsoleApplication {
     }
 
     /**
-     * Acquire input from user and sanitize it.
-     * <p>
-     * NB: Never trust the user! :D
+     * Acquire input from user
      *
      * @return Valid user input
      */

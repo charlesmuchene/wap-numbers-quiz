@@ -122,6 +122,8 @@ public class Quiz {
 
     /**
      * Sanitize user input
+     * <p>
+     * NB: Never trust the user input! :D
      *
      * @param input User input
      * @return {@link Optional} sanitized input
