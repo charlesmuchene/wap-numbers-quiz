@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * An in-memory implementation of the {@link QuestionDAO}
+ */
 public class InMemoryData implements QuestionDAO {
 
     private Map<Integer, Question> map = new HashMap<Integer, Question>() {
