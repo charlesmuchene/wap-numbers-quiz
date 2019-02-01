@@ -16,6 +16,13 @@ public class QuizController {
     private final QuestionDAO dao;
     private final View view;
 
+    /**
+     * QuizController constructor
+     *
+     * @param view        {@link View} implementation
+     * @param questionDAO {@link QuestionDAO} implementation
+     * @param state       {@link ApplicationState} implementation
+     */
     public QuizController(View view, QuestionDAO questionDAO, ApplicationState state) {
         this.view = view;
         this.state = state;
