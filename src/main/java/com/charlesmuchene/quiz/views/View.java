@@ -9,7 +9,7 @@ public interface View {
      * Display the given text and score
      *
      * @param text  Question to display
-     * @param score Score to display
+     * @param score Running score to display
      */
     void displayText(String text, int score);
 

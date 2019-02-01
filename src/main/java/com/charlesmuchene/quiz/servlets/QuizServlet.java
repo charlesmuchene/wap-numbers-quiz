@@ -1,8 +1,9 @@
 package com.charlesmuchene.quiz.servlets;
 
 import com.charlesmuchene.quiz.controllers.QuizController;
+import com.charlesmuchene.quiz.data.ApplicationState;
 import com.charlesmuchene.quiz.data.InMemoryData;
-import com.charlesmuchene.quiz.views.ConsoleView;
+import com.charlesmuchene.quiz.console.ConsoleView;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,7 +18,9 @@ import java.io.IOException;
 @WebServlet(name = "Quiz", urlPatterns = "/quiz")
 public class QuizServlet extends HttpServlet {
 
-    private final QuizController controller = new QuizController(new ConsoleView(), new InMemoryData());
+    // TODO: 2019-02-01 Use session to store application state
+    private final QuizController controller = new QuizController(new ConsoleView(), new InMemoryData(),
+            new ApplicationState());
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -1,5 +1,6 @@
 package com.charlesmuchene.quiz.controllers;
 
+import com.charlesmuchene.quiz.data.ApplicationState;
 import com.charlesmuchene.quiz.data.QuestionDAO;
 import com.charlesmuchene.quiz.models.Question;
 import com.charlesmuchene.quiz.views.View;
@@ -11,24 +12,26 @@ import java.util.Optional;
  */
 public class QuizController {
 
+    private final ApplicationState state;
     private final QuestionDAO dao;
     private final View view;
 
-    public QuizController(View view, QuestionDAO questionDAO) {
+    public QuizController(View view, QuestionDAO questionDAO, ApplicationState state) {
         this.view = view;
+        this.state = state;
         this.dao = questionDAO;
     }
 
     /**
      * Display the next question or quiz over
      *
-     * @param number Question number to retrieve
-     * @param score  Current score
      * @return {@code true} if there was a question to display
      * otherwise {@code false}
      */
-    public boolean displayNextQuestion(int number, int score) {
-        Optional<Question> question = dao.getQuestionWithNumber(number);
+    public boolean displayNextQuestion() {
+        int score = state.getScore();
+        int currentQuestion = state.getCurrentQuestion();
+        Optional<Question> question = dao.getQuestionWithNumber(currentQuestion);
         if (question.isPresent()) view.displayText(question.get().getQuestionText(), score);
         else view.questionsOver(score);
         return question.isPresent();
@@ -38,20 +41,21 @@ public class QuizController {
      * Verify that the given answer is the correct answer of the question
      * with the given question number.
      *
-     * @param questionNumber Question number to retrieve question
-     * @param answer         Possible answer for the question
-     * @return {@code true} if the answer is correct otherwise {@code false}
+     * @param answer Possible answer for the question
      */
-    public boolean isCorrectAnswer(int questionNumber, int answer) {
-        Optional<Question> question = dao.getQuestionWithNumber(questionNumber);
-        return question.filter(query -> query.getAnswer() == answer).isPresent();
+    public void validateAnswer(int answer) {
+        int currentQuestion = state.getCurrentQuestion();
+        Optional<Question> question = dao.getQuestionWithNumber(currentQuestion);
+        boolean isCorrect = question.filter(query -> query.getAnswer() == answer).isPresent();
+        if (isCorrect) state.incrementScore();
+        else view.displayIncorrectAnswer();
+        state.setNextQuestion();
     }
 
     /**
-     * Display that the answer is incorrect
+     * Reset application state
      */
-    public void displayIncorrectAnswer() {
-        view.displayIncorrectAnswer();
+    public void resetState() {
+        state.reset();
     }
-
 }

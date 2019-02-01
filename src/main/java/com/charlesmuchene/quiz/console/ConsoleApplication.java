@@ -1,39 +1,64 @@
 package com.charlesmuchene.quiz.console;
 
 import com.charlesmuchene.quiz.controllers.QuizController;
+import com.charlesmuchene.quiz.data.ApplicationState;
 import com.charlesmuchene.quiz.data.InMemoryData;
 import com.charlesmuchene.quiz.data.QuestionDAO;
-import com.charlesmuchene.quiz.views.ConsoleView;
 import com.charlesmuchene.quiz.views.View;
 
 import java.util.Scanner;
 
 /**
  * Console application
+ * <p>
+ * Uses Standard Input, Output and Error Streams
  */
 public class ConsoleApplication {
 
     private final QuizController controller;
-    private int score = 0;
-    private int currentQuestion = 1;
-    private Scanner scanner = new Scanner(System.in);
+    private final Scanner scanner;
 
+    /**
+     * Constructor
+     *
+     * @param controller {@link QuizController} instance
+     */
     private ConsoleApplication(QuizController controller) {
         this.controller = controller;
+        this.scanner = new Scanner(System.in);
     }
 
+    /**
+     * Display next question
+     *
+     * @return {@code true} if there's a question to show
+     * {@code false} otherwise
+     */
     private boolean showNextQuestion() {
-        boolean hasNextQuestion = controller.displayNextQuestion(currentQuestion, score);
-        if (!hasNextQuestion) scanner.close();
+        boolean hasNextQuestion = controller.displayNextQuestion();
+        if (!hasNextQuestion) {
+            scanner.close();
+            controller.resetState();
+        }
         return hasNextQuestion;
     }
 
+    /**
+     * Validate the given answer
+     *
+     * @param answer Answer to validate
+     */
     private void validateAnswer(int answer) {
-        boolean isCorrect = controller.isCorrectAnswer(currentQuestion++, answer);
-        if (isCorrect) score++;
-        else controller.displayIncorrectAnswer();
+        controller.validateAnswer(answer);
     }
 
+    /**
+     * Acquire input from user and sanitize it.
+     * <p>
+     * NB: Never trust the user! :D
+     *
+     * @return Valid user input
+     */
     private int getNextInput() {
         int answer;
         while (true) {
@@ -56,7 +81,8 @@ public class ConsoleApplication {
     public static void main(String[] args) {
         View consoleView = new ConsoleView();
         QuestionDAO questionDAO = new InMemoryData();
-        QuizController controller = new QuizController(consoleView, questionDAO);
+        ApplicationState applicationState = new ApplicationState();
+        QuizController controller = new QuizController(consoleView, questionDAO, applicationState);
         ConsoleApplication application = new ConsoleApplication(controller);
 
         while (true) {

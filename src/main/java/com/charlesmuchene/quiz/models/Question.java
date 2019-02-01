@@ -5,7 +5,6 @@ package com.charlesmuchene.quiz.models;
  */
 public class Question {
 
-    private final int number;
     private final int answer;
     private final String questionText;
 
@@ -16,14 +15,9 @@ public class Question {
      * @param questionText The text of the question.
      * @param answer       Answer to the question
      */
-    public Question(int number, String questionText, int answer) {
-        this.number = number;
+    public Question(@SuppressWarnings("unused") int number, String questionText, int answer) {
         this.questionText = questionText;
         this.answer = answer;
-    }
-
-    public int getNumber() {
-        return number;
     }
 
     public String getQuestionText() {

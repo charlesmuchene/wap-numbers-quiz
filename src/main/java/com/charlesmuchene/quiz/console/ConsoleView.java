@@ -1,4 +1,6 @@
-package com.charlesmuchene.quiz.views;
+package com.charlesmuchene.quiz.console;
+
+import com.charlesmuchene.quiz.views.View;
 
 /**
  * Console {@link View} implementation

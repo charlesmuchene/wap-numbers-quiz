@@ -1,5 +1,6 @@
 package com.charlesmuchene.quiz.controllers;
 
+import com.charlesmuchene.quiz.data.ApplicationState;
 import com.charlesmuchene.quiz.data.QuestionDAO;
 import com.charlesmuchene.quiz.models.Question;
 import com.charlesmuchene.quiz.views.View;
@@ -19,11 +20,12 @@ class QuizControllerTest {
 
     private View view = mock(View.class);
     private QuestionDAO dao = mock(QuestionDAO.class);
+    private ApplicationState state = mock(ApplicationState.class);
     private final Question dummyQuestion = new Question(-1, "Is this the most dumb question", -1);
 
     @BeforeEach
     void setUp() {
-        controller = new QuizController(view, dao);
+        controller = new QuizController(view, dao, state);
     }
 
     @Test
@@ -31,7 +33,7 @@ class QuizControllerTest {
 
         when(dao.getQuestionWithNumber(anyInt())).thenReturn(Optional.of(dummyQuestion));
 
-        boolean isQuestionDisplayed = controller.displayNextQuestion(anyInt(), -1);
+        boolean isQuestionDisplayed = controller.displayNextQuestion();
 
         assertTrue(isQuestionDisplayed);
         verify(dao).getQuestionWithNumber(anyInt());
@@ -42,9 +44,8 @@ class QuizControllerTest {
     void shouldDisplayQuestionsDone() {
 
         when(dao.getQuestionWithNumber(anyInt())).thenReturn(Optional.empty());
-        QuizController controller = new QuizController(view, dao);
 
-        boolean isQuestionDisplayed = controller.displayNextQuestion(anyInt(), -1);
+        boolean isQuestionDisplayed = controller.displayNextQuestion();
 
         assertFalse(isQuestionDisplayed);
         verify(view).questionsOver(anyInt());
@@ -55,7 +56,7 @@ class QuizControllerTest {
     void shouldDisplayNextQuestion() {
         when(dao.getQuestionWithNumber(anyInt())).thenReturn(Optional.of(dummyQuestion));
 
-        boolean isQuestionDisplayed = controller.displayNextQuestion(anyInt(), -1);
+        boolean isQuestionDisplayed = controller.displayNextQuestion();
 
         assertTrue(isQuestionDisplayed);
         verify(view).displayText(anyString(), anyInt());
@@ -65,12 +66,11 @@ class QuizControllerTest {
     void answerIsCorrect() {
         when(dao.getQuestionWithNumber(anyInt())).thenReturn(Optional.of(dummyQuestion));
 
-        int questionNumber = dummyQuestion.getNumber();
         int possibleAnswer = dummyQuestion.getAnswer();
 
-        boolean correctAnswer = controller.isCorrectAnswer(questionNumber, possibleAnswer);
+        controller.validateAnswer(possibleAnswer);
 
-        assertTrue(correctAnswer);
+        verify(view, times(0)).displayIncorrectAnswer();
     }
 
 }

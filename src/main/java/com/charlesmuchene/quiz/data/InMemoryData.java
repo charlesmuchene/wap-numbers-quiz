@@ -24,8 +24,4 @@ public class InMemoryData implements QuestionDAO {
         return Optional.ofNullable(map.get(number));
     }
 
-    @Override
-    public int size() {
-        return map.size();
-    }
 }

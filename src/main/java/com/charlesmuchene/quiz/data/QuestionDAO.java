@@ -21,11 +21,4 @@ public interface QuestionDAO {
      */
     Optional<Question> getQuestionWithNumber(int number);
 
-    /**
-     * The number of questions available
-     *
-     * @return Number of questions available
-     */
-    int size();
-
 }
