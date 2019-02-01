@@ -16,6 +16,9 @@ public class InMemoryData implements QuestionDAO {
         {
             put(1, new Question(1, "[3, 1, 4, 1, 5, ? ]", 9));
             put(2, new Question(2, "[1, 1, 2, 3, 5, ? ]", 8));
+            put(3, new Question(3, "[1, 4, 9, 16, 25, ? ]", 36));
+            put(4, new Question(4, "[2, 3, 5, 7, 11, ? ]", 13));
+            put(5, new Question(5, "[1, 2, 4, 8, 16, ? ]", 32));
         }
     };
 
