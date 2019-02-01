@@ -1,19 +1,21 @@
 package com.charlesmuchene.quiz.data;
 
 import com.charlesmuchene.quiz.models.Question;
-
-import java.util.List;
+import com.charlesmuchene.quiz.utilties.NoSuchQuestionException;
 
 /**
  * Question Dao contract
  */
 public interface QuestionDAO {
+
     /**
-     * Get all questions
+     * Get the question with the given number
      *
-     * @return {@link List<Question>}
+     * @param number Question number to retrieve
+     * @return Requested {@link Question}
+     * @throws NoSuchQuestionException if the question doesn't exist
      */
-    List<Question> getAllQuestions();
+    Question getQuestionWithNumber(int number) throws NoSuchQuestionException;
 
     /**
      * The number of questions available

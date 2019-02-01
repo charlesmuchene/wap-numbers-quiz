@@ -1,7 +1,7 @@
 package com.charlesmuchene.quiz.models;
 
 import com.charlesmuchene.quiz.data.QuestionDAO;
-import com.charlesmuchene.quiz.utilties.NoMoreQuestionsException;
+import com.charlesmuchene.quiz.utilties.NoSuchQuestionException;
 
 /**
  * Quiz model
@@ -27,14 +27,14 @@ public class Quiz {
      * Get the next question
      *
      * @param currentQuestion Current question number
-     * @return {@link Question}
-     * @throws NoMoreQuestionsException when there are no more questions to ask
+     * @return Next {@link Question} to ask
+     * @throws NoSuchQuestionException when there are no more questions to ask
      */
-    public Question getNextQuestion(int currentQuestion) throws NoMoreQuestionsException {
-        currentQuestion++;
-        if (currentQuestion < totalQuestions)
-            return questionDao.getAllQuestions().get(currentQuestion);
-        throw new NoMoreQuestionsException();
+    public Question getNextQuestion(int currentQuestion) throws NoSuchQuestionException {
+        int nextQuestion = currentQuestion + 1;
+        if (nextQuestion < totalQuestions)
+            return questionDao.getQuestionWithNumber(nextQuestion);
+        throw new NoSuchQuestionException();
     }
 
 }

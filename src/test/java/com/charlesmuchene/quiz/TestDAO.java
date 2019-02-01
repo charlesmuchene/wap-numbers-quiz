@@ -2,6 +2,7 @@ package com.charlesmuchene.quiz;
 
 import com.charlesmuchene.quiz.data.QuestionDAO;
 import com.charlesmuchene.quiz.models.Question;
+import com.charlesmuchene.quiz.utilties.NoSuchQuestionException;
 
 import java.util.*;
 
@@ -15,10 +16,13 @@ public class TestDAO implements QuestionDAO {
         }
     };
 
-    public List<Question> getAllQuestions() {
-        return new ArrayList<Question>(map.values());
+    @Override
+    public Question getQuestionWithNumber(int number) throws NoSuchQuestionException {
+        if (number >= map.size()) throw new NoSuchQuestionException();
+        return map.get(number);
     }
 
+    @Override
     public int size() {
         return map.size();
     }

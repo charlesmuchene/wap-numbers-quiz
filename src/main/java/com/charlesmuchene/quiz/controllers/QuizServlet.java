@@ -7,6 +7,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Quiz Servlet
+ * <p>
+ * Main quiz controller
+ */
 @WebServlet(name = "Quiz", urlPatterns = "/quiz")
 public class QuizServlet extends HttpServlet {
 
