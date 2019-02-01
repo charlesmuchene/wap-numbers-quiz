@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
@@ -30,8 +31,9 @@ class QuizControllerTest {
 
         when(dao.getQuestionWithNumber(anyInt())).thenReturn(Optional.of(dummyQuestion));
 
-        controller.displayNextQuestion(anyInt(), "");
+        boolean isQuestionDisplayed = controller.displayNextQuestion(anyInt(), -1);
 
+        assertTrue(isQuestionDisplayed);
         verify(dao).getQuestionWithNumber(anyInt());
 
     }
@@ -42,9 +44,10 @@ class QuizControllerTest {
         when(dao.getQuestionWithNumber(anyInt())).thenReturn(Optional.empty());
         QuizController controller = new QuizController(view, dao);
 
-        controller.displayNextQuestion(anyInt(), "");
+        boolean isQuestionDisplayed = controller.displayNextQuestion(anyInt(), -1);
 
-        verify(view).questionsOver(anyString());
+        assertFalse(isQuestionDisplayed);
+        verify(view).questionsOver(anyInt());
 
     }
 
@@ -52,9 +55,10 @@ class QuizControllerTest {
     void shouldDisplayNextQuestion() {
         when(dao.getQuestionWithNumber(anyInt())).thenReturn(Optional.of(dummyQuestion));
 
-        controller.displayNextQuestion(anyInt(), "");
+        boolean isQuestionDisplayed = controller.displayNextQuestion(anyInt(), -1);
 
-        verify(view).displayText(anyString(), anyString());
+        assertTrue(isQuestionDisplayed);
+        verify(view).displayText(anyString(), anyInt());
     }
 
     @Test
@@ -68,4 +72,5 @@ class QuizControllerTest {
 
         assertTrue(correctAnswer);
     }
+
 }

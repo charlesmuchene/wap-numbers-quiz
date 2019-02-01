@@ -11,13 +11,18 @@ public interface View {
      * @param text  Question to display
      * @param score Score to display
      */
-    void displayText(String text, String score);
+    void displayText(String text, int score);
 
     /**
      * Display no more questions
      *
      * @param score Final score
      */
-    void questionsOver(String score);
+    void questionsOver(int score);
+
+    /**
+     * Display incorrect answer
+     */
+    void displayIncorrectAnswer();
 
 }

@@ -6,19 +6,25 @@ package com.charlesmuchene.quiz.views;
 public class ConsoleView implements View {
 
     @Override
-    public void displayText(String text, String score) {
-        String builder = "Your current score is: " + score +
+    public void displayText(String text, int score) {
+        String builder = System.lineSeparator() + "Your current score is: " + score +
                 "." + System.lineSeparator() +
-                "Guess the next number in the sequence!" +
+                "Guess the next number in the following sequence!" +
                 System.lineSeparator() + text +
-                "Your answer:";
-        System.out.println(builder);
+                System.lineSeparator() + "Your answer: ";
+        System.out.print(builder);
     }
 
     @Override
-    public void questionsOver(String score) {
-        String text = "Questions are over!" + System.lineSeparator() +
-                "Your final score is: " + score + "!";
+    public void questionsOver(int score) {
+        String text = System.lineSeparator() + "Quiz over." + System.lineSeparator() +
+                "Your final score is: " + score;
         System.out.println(text);
+    }
+
+    @Override
+    public void displayIncorrectAnswer() {
+        String text = System.lineSeparator() + "Incorrect answer!" + System.lineSeparator();
+        System.err.println(text);
     }
 }

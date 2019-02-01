@@ -24,14 +24,14 @@ public class QuizController {
      *
      * @param number Question number to retrieve
      * @param score  Current score
+     * @return {@code true} if there was a question to display
+     * otherwise {@code false}
      */
-    public void displayNextQuestion(int number, String score) {
+    public boolean displayNextQuestion(int number, int score) {
         Optional<Question> question = dao.getQuestionWithNumber(number);
-        if (question.isPresent()) {
-            view.displayText(question.get().getQuestionText(), score);
-        } else {
-            view.questionsOver(score);
-        }
+        if (question.isPresent()) view.displayText(question.get().getQuestionText(), score);
+        else view.questionsOver(score);
+        return question.isPresent();
     }
 
     /**
@@ -46,4 +46,12 @@ public class QuizController {
         Optional<Question> question = dao.getQuestionWithNumber(questionNumber);
         return question.filter(query -> query.getAnswer() == answer).isPresent();
     }
+
+    /**
+     * Display that the answer is incorrect
+     */
+    public void displayIncorrectAnswer() {
+        view.displayIncorrectAnswer();
+    }
+
 }
