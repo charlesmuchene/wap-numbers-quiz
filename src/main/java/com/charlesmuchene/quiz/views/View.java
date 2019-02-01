@@ -6,6 +6,16 @@ package com.charlesmuchene.quiz.views;
 public interface View {
 
     /**
+     * Request state enumeration
+     */
+    enum RequestState {
+        DISPLAY,
+        OVER,
+        INCORRECT,
+        INVALID
+    }
+
+    /**
      * Display the given question text and score
      *
      * @param text  Question to display
