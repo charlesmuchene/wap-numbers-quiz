@@ -1,10 +1,9 @@
 package com.charlesmuchene.quiz.data;
 
 import com.charlesmuchene.quiz.models.Question;
-import com.charlesmuchene.quiz.utilties.NoSuchQuestionException;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -21,9 +20,8 @@ public class InMemoryData implements QuestionDAO {
     };
 
     @Override
-    public synchronized Question getQuestionWithNumber(int number) throws NoSuchQuestionException {
-        if (number >= map.size()) throw new NoSuchQuestionException();
-        return map.get(number);
+    public synchronized Optional<Question> getQuestionWithNumber(int number) {
+        return Optional.ofNullable(map.get(number));
     }
 
     @Override

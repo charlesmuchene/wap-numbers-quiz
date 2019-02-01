@@ -1,7 +1,8 @@
 package com.charlesmuchene.quiz.data;
 
 import com.charlesmuchene.quiz.models.Question;
-import com.charlesmuchene.quiz.utilties.NoSuchQuestionException;
+
+import java.util.Optional;
 
 /**
  * Question Dao contract
@@ -16,10 +17,9 @@ public interface QuestionDAO {
      * Implementations should have ensure this method is thread-safe.
      *
      * @param number Question number to retrieve
-     * @return Requested {@link Question}
-     * @throws NoSuchQuestionException if the question doesn't exist
+     * @return Requested {@link Question} as an {@link Optional}
      */
-    Question getQuestionWithNumber(int number) throws NoSuchQuestionException;
+    Optional<Question> getQuestionWithNumber(int number);
 
     /**
      * The number of questions available
