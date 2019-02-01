@@ -24,19 +24,19 @@ class QuizTest {
     void shouldGetNextQuestion() throws NoSuchQuestionException {
 
         final Quiz quiz = new Quiz(questionDao);
-        AtomicInteger currentQuestion = new AtomicInteger();
+        AtomicInteger nextNumber = new AtomicInteger(1);
 
-        Question nextQuestion = quiz.getNextQuestion(currentQuestion.get());
+        Question nextQuestion = quiz.getNextQuestion(nextNumber.get());
 
         assertEquals(1, nextQuestion.getNumber());
 
-        nextQuestion = quiz.getNextQuestion(currentQuestion.incrementAndGet());
+        nextQuestion = quiz.getNextQuestion(nextNumber.incrementAndGet());
 
         assertEquals(2, nextQuestion.getNumber());
 
         assertThrows(NoSuchQuestionException.class, () -> {
             //noinspection InfiniteLoopStatement
-            while (true) quiz.getNextQuestion(currentQuestion.incrementAndGet());
+            while (true) quiz.getNextQuestion(nextNumber.incrementAndGet());
         });
 
     }
