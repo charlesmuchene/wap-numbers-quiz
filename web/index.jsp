@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Number Quiz</title>
-    <link rel="stylesheet" href="resources/quiz.css">
+    <link rel="stylesheet" href="resources/main.css">
 </head>
 <body>
 <header><h1>Awesome number tests. Ready?</h1></header>

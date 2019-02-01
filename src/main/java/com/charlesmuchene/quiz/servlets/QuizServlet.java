@@ -4,6 +4,7 @@ import com.charlesmuchene.quiz.business.Quiz;
 import com.charlesmuchene.quiz.data.ApplicationState;
 import com.charlesmuchene.quiz.data.InMemoryData;
 import com.charlesmuchene.quiz.data.QuestionDAO;
+import com.charlesmuchene.quiz.servlets.servlet.ServletView;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,8 +17,8 @@ import java.util.Optional;
 /**
  * Quiz Servlet
  */
-@WebServlet(name = "Quiz", urlPatterns = "/quiz")
-public class ServletApplication extends HttpServlet {
+@WebServlet(name = "quiz", urlPatterns = "/quiz")
+public class QuizServlet extends HttpServlet {
 
     private static final String SAME_REQUEST = "same_request";
     private Quiz quiz;

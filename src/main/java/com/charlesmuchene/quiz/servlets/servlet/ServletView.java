@@ -1,17 +1,17 @@
-package com.charlesmuchene.quiz.servlets;
+package com.charlesmuchene.quiz.servlets.servlet;
 
 import com.charlesmuchene.quiz.views.View;
 
 import java.io.PrintWriter;
 
 /**
- * Servlet view implementation
+ * Servlet {@link View} implementation
  */
 public class ServletView implements View {
 
     private final PrintWriter out;
 
-    ServletView(PrintWriter out) {
+    public ServletView(PrintWriter out) {
         this.out = out;
     }
 
@@ -68,7 +68,7 @@ public class ServletView implements View {
         out.print(text + "</p>");
 
         if (showIncorrectAnswer)
-            out.print("<p style='color:red'>Incorrect answer! Please try again</p> ");
+            out.print("<p style='color:red'>Incorrect answer!</p> ");
 
         if (showInvalidInput)
             out.print("<p style='color:red'>Invalid input! Please try again</p> ");
