@@ -3,7 +3,7 @@ package com.charlesmuchene.quiz.business;
 import com.charlesmuchene.quiz.data.ApplicationState;
 import com.charlesmuchene.quiz.data.QuestionDAO;
 import com.charlesmuchene.quiz.models.Question;
-import com.charlesmuchene.quiz.views.View;
+import com.charlesmuchene.quiz.presentation.Presentation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,14 +18,14 @@ class QuizTest {
 
     private Quiz controller;
 
-    private View view = mock(View.class);
+    private Presentation presentation = mock(Presentation.class);
     private QuestionDAO dao = mock(QuestionDAO.class);
     private ApplicationState state = mock(ApplicationState.class);
     private final Question dummyQuestion = new Question(-1, "Is this the most dumb question", -1);
 
     @BeforeEach
     void setUp() {
-        controller = new Quiz(view, dao, state);
+        controller = new Quiz(presentation, dao, state);
     }
 
     @Test
@@ -48,7 +48,7 @@ class QuizTest {
         boolean isQuestionDisplayed = controller.displayNextQuestion();
 
         assertFalse(isQuestionDisplayed);
-        verify(view).questionsOver(anyInt());
+        verify(presentation).questionsOver(anyInt());
 
     }
 
@@ -59,7 +59,7 @@ class QuizTest {
         boolean isQuestionDisplayed = controller.displayNextQuestion();
 
         assertTrue(isQuestionDisplayed);
-        verify(view).displayQuestionText(anyString(), anyInt());
+        verify(presentation).displayQuestionText(anyString(), anyInt());
     }
 
     @Test
@@ -70,7 +70,7 @@ class QuizTest {
 
         controller.validateAnswer(possibleAnswer);
 
-        verify(view, times(0)).displayIncorrectAnswer(anyString(), anyInt());
+        verify(presentation, times(0)).displayIncorrectAnswer(anyString(), anyInt());
     }
 
     @Test

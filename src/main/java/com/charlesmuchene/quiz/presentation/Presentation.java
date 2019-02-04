@@ -1,9 +1,9 @@
-package com.charlesmuchene.quiz.views;
+package com.charlesmuchene.quiz.presentation;
 
 /**
- * View contract
+ * Presentation contract
  */
-public interface View {
+public interface Presentation {
 
     /**
      * Request state enumeration

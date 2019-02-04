@@ -4,7 +4,7 @@ import com.charlesmuchene.quiz.business.Quiz;
 import com.charlesmuchene.quiz.data.ApplicationState;
 import com.charlesmuchene.quiz.data.InMemoryData;
 import com.charlesmuchene.quiz.data.QuestionDAO;
-import com.charlesmuchene.quiz.views.View;
+import com.charlesmuchene.quiz.presentation.Presentation;
 
 import java.util.Optional;
 import java.util.Scanner;
@@ -74,10 +74,10 @@ public class ConsoleApplication {
     }
 
     public static void main(String[] args) {
-        View consoleView = new ConsoleView();
+        Presentation consolePresentation = new ConsolePresentation();
         QuestionDAO questionDAO = new InMemoryData();
         ApplicationState applicationState = new ApplicationState();
-        Quiz controller = new Quiz(consoleView, questionDAO, applicationState);
+        Quiz controller = new Quiz(consolePresentation, questionDAO, applicationState);
         ConsoleApplication application = new ConsoleApplication(controller);
 
         while (true) {

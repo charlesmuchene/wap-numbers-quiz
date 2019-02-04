@@ -1,6 +1,6 @@
 package com.charlesmuchene.quiz.servlets.jsp;
 
-import com.charlesmuchene.quiz.views.View;
+import com.charlesmuchene.quiz.presentation.Presentation;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -8,20 +8,20 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * JSP {@link View} implementation
+ * JSP {@link Presentation} implementation
  */
-public class JSPView implements View {
+public class JSPPresentation implements Presentation {
 
     private final HttpServletRequest request;
     private final HttpServletResponse response;
 
     /**
-     * JSPView constructor
+     * JSPPresentation constructor
      *
      * @param request  {@link HttpServletRequest} instance
      * @param response {@link HttpServletResponse} instance
      */
-    public JSPView(HttpServletRequest request, HttpServletResponse response) {
+    public JSPPresentation(HttpServletRequest request, HttpServletResponse response) {
         this.request = request;
         this.response = response;
     }
@@ -49,7 +49,7 @@ public class JSPView implements View {
     /**
      * Forward request to jsp
      *
-     * @param state {@link com.charlesmuchene.quiz.views.View.RequestState} instance
+     * @param state {@link Presentation.RequestState} instance
      * @param text  Question text
      * @param score Score
      */

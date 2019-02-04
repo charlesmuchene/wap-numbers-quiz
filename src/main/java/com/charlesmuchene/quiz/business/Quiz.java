@@ -3,7 +3,7 @@ package com.charlesmuchene.quiz.business;
 import com.charlesmuchene.quiz.data.ApplicationState;
 import com.charlesmuchene.quiz.data.QuestionDAO;
 import com.charlesmuchene.quiz.models.Question;
-import com.charlesmuchene.quiz.views.View;
+import com.charlesmuchene.quiz.presentation.Presentation;
 
 import java.util.Optional;
 
@@ -14,28 +14,28 @@ public class Quiz {
 
     private final ApplicationState state;
     private final QuestionDAO dao;
-    private View view;
+    private Presentation presentation;
 
     /**
      * Quiz constructor
      *
-     * @param view        {@link View} implementation
+     * @param presentation        {@link Presentation} implementation
      * @param questionDAO {@link QuestionDAO} implementation
      * @param state       {@link ApplicationState} implementation
      */
-    public Quiz(View view, QuestionDAO questionDAO, ApplicationState state) {
-        this.view = view;
+    public Quiz(Presentation presentation, QuestionDAO questionDAO, ApplicationState state) {
+        this.presentation = presentation;
         this.state = state;
         this.dao = questionDAO;
     }
 
     /**
-     * Set the given view
+     * Set the given presentation
      *
-     * @param view {@link View} implementation
+     * @param presentation {@link Presentation} implementation
      */
-    public void setView(View view) {
-        this.view = view;
+    public void setPresentation(Presentation presentation) {
+        this.presentation = presentation;
     }
 
     /**
@@ -73,7 +73,7 @@ public class Quiz {
             displayQuestion(score, question.get());
             return true;
         } else {
-            view.questionsOver(score);
+            presentation.questionsOver(score);
             return false;
         }
     }
@@ -95,7 +95,7 @@ public class Quiz {
      * @param question Question to display
      */
     private void displayQuestion(int score, Question question) {
-        view.displayQuestionText(question.getQuestionText(), score);
+        presentation.displayQuestionText(question.getQuestionText(), score);
     }
 
     /**
@@ -142,7 +142,7 @@ public class Quiz {
     public void displayInvalidInput() {
         int questionNumber = state.getCurrentQuestionNumber();
         getQuestion(questionNumber).ifPresent((question) ->
-                view.displayInputAsInvalid(question.getQuestionText(), state.getScore()));
+                presentation.displayInputAsInvalid(question.getQuestionText(), state.getScore()));
     }
 
     /**
@@ -152,6 +152,6 @@ public class Quiz {
         int currentQuestionNumber = state.getCurrentQuestionNumber();
         Optional<Question> question = dao.getQuestionWithNumber(currentQuestionNumber);
         String text = question.isPresent() ? question.get().getQuestionText() : "";
-        view.displayIncorrectAnswer(text, state.getScore());
+        presentation.displayIncorrectAnswer(text, state.getScore());
     }
 }

@@ -1,17 +1,17 @@
 package com.charlesmuchene.quiz.servlets.servlet;
 
-import com.charlesmuchene.quiz.views.View;
+import com.charlesmuchene.quiz.presentation.Presentation;
 
 import java.io.PrintWriter;
 
 /**
- * Servlet {@link View} implementation
+ * Servlet {@link Presentation} implementation
  */
-public class ServletView implements View {
+public class ServletPresentation implements Presentation {
 
     private final PrintWriter out;
 
-    public ServletView(PrintWriter out) {
+    public ServletPresentation(PrintWriter out) {
         this.out = out;
     }
 

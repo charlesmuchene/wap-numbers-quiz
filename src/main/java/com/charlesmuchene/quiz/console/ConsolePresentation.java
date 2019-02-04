@@ -1,11 +1,11 @@
 package com.charlesmuchene.quiz.console;
 
-import com.charlesmuchene.quiz.views.View;
+import com.charlesmuchene.quiz.presentation.Presentation;
 
 /**
- * Console {@link View} implementation
+ * Console {@link Presentation} implementation
  */
-public class ConsoleView implements View {
+public class ConsolePresentation implements Presentation {
 
     @Override
     public void displayQuestionText(String text, int score) {

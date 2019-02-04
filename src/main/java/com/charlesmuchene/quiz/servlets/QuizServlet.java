@@ -4,9 +4,9 @@ import com.charlesmuchene.quiz.business.Quiz;
 import com.charlesmuchene.quiz.data.ApplicationState;
 import com.charlesmuchene.quiz.data.InMemoryData;
 import com.charlesmuchene.quiz.data.QuestionDAO;
-import com.charlesmuchene.quiz.servlets.jsp.JSPView;
-import com.charlesmuchene.quiz.servlets.servlet.ServletView;
-import com.charlesmuchene.quiz.views.View;
+import com.charlesmuchene.quiz.servlets.jsp.JSPPresentation;
+import com.charlesmuchene.quiz.servlets.servlet.ServletPresentation;
+import com.charlesmuchene.quiz.presentation.Presentation;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -101,8 +101,8 @@ public class QuizServlet extends HttpServlet {
         String backend = retrieveBackendChoice(request);
         boolean useJsp = backend.equalsIgnoreCase("jsp");
 
-        View view = useJsp ? new JSPView(request, response) : new ServletView(response.getWriter());
-        quiz.setView(view);
+        Presentation presentation = useJsp ? new JSPPresentation(request, response) : new ServletPresentation(response.getWriter());
+        quiz.setPresentation(presentation);
     }
 
     /**
