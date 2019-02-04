@@ -19,9 +19,9 @@ public class Quiz {
     /**
      * Quiz constructor
      *
-     * @param presentation        {@link Presentation} implementation
-     * @param questionDAO {@link QuestionDAO} implementation
-     * @param state       {@link ApplicationState} implementation
+     * @param presentation {@link Presentation} implementation
+     * @param questionDAO  {@link QuestionDAO} implementation
+     * @param state        {@link ApplicationState} implementation
      */
     public Quiz(Presentation presentation, QuestionDAO questionDAO, ApplicationState state) {
         this.presentation = presentation;
@@ -69,13 +69,10 @@ public class Quiz {
     private boolean displayQuestionWith(int number) {
         int score = state.getScore();
         Optional<Question> question = getQuestion(number);
-        if (question.isPresent()) {
-            displayQuestion(score, question.get());
-            return true;
-        } else {
-            presentation.questionsOver(score);
-            return false;
-        }
+        if (question.isPresent())
+            presentation.displayQuestionText(question.get().getQuestionText(), score, question.get().getHint());
+        else presentation.questionsOver(score);
+        return question.isPresent();
     }
 
     /**
@@ -86,16 +83,6 @@ public class Quiz {
      */
     private Optional<Question> getQuestion(int number) {
         return dao.getQuestionWithNumber(number);
-    }
-
-    /**
-     * Display the given question
-     *
-     * @param score    Running score
-     * @param question Question to display
-     */
-    private void displayQuestion(int score, Question question) {
-        presentation.displayQuestionText(question.getQuestionText(), score);
     }
 
     /**
@@ -142,7 +129,7 @@ public class Quiz {
     public void displayInvalidInput() {
         int questionNumber = state.getCurrentQuestionNumber();
         getQuestion(questionNumber).ifPresent((question) ->
-                presentation.displayInputAsInvalid(question.getQuestionText(), state.getScore()));
+                presentation.displayInputAsInvalid(question.getQuestionText(), state.getScore(), question.getHint()));
     }
 
     /**
@@ -152,6 +139,7 @@ public class Quiz {
         int currentQuestionNumber = state.getCurrentQuestionNumber();
         Optional<Question> question = dao.getQuestionWithNumber(currentQuestionNumber);
         String text = question.isPresent() ? question.get().getQuestionText() : "";
-        presentation.displayIncorrectAnswer(text, state.getScore());
+        String hint = question.isPresent() ? question.get().getHint() : "";
+        presentation.displayIncorrectAnswer(text, state.getScore(), hint);
     }
 }

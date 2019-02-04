@@ -16,7 +16,7 @@ public class ServletPresentation implements Presentation {
     }
 
     @Override
-    public void displayQuestionText(String text, int score) {
+    public void displayQuestionText(String text, int score, String hint) {
         showQuestion(text, score, false, false);
     }
 
@@ -37,12 +37,12 @@ public class ServletPresentation implements Presentation {
     }
 
     @Override
-    public void displayIncorrectAnswer(String text, int score) {
+    public void displayIncorrectAnswer(String text, int score, String hint) {
         showQuestion(text, score, true, false);
     }
 
     @Override
-    public void displayInputAsInvalid(String text, int score) {
+    public void displayInputAsInvalid(String text, int score, String hint) {
         showQuestion(text, score, false, true);
     }
 

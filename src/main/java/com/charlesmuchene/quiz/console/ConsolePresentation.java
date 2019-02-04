@@ -8,10 +8,12 @@ import com.charlesmuchene.quiz.presentation.Presentation;
 public class ConsolePresentation implements Presentation {
 
     @Override
-    public void displayQuestionText(String text, int score) {
+    public void displayQuestionText(String text, int score, String hint) {
         String builder = System.lineSeparator() + "Your current score is: " +
                 score + "." + System.lineSeparator() +
                 "Guess the next number in the following sequence!" +
+                System.lineSeparator() +
+                "********| " + hint + " |********" +
                 System.lineSeparator() + text +
                 System.lineSeparator() + "Your answer: ";
         System.out.print(builder);
@@ -25,13 +27,13 @@ public class ConsolePresentation implements Presentation {
     }
 
     @Override
-    public void displayIncorrectAnswer(String text, int score) {
+    public void displayIncorrectAnswer(String text, int score, String hint) {
         String output = System.lineSeparator() + "Incorrect answer!" + System.lineSeparator();
         System.err.println(output);
     }
 
     @Override
-    public void displayInputAsInvalid(String text, int score) {
+    public void displayInputAsInvalid(String text, int score, String hint) {
         String output = System.lineSeparator() + "Invalid input!";
         System.err.println(output);
         output = System.lineSeparator() +

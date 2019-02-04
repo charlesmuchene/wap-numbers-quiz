@@ -21,7 +21,7 @@ class QuizTest {
     private Presentation presentation = mock(Presentation.class);
     private QuestionDAO dao = mock(QuestionDAO.class);
     private ApplicationState state = mock(ApplicationState.class);
-    private final Question dummyQuestion = new Question(-1, "Is this the most dumb question", -1);
+    private final Question dummyQuestion = new Question(-1, "Is this the most dumb question", -1, "");
 
     @BeforeEach
     void setUp() {
@@ -59,7 +59,7 @@ class QuizTest {
         boolean isQuestionDisplayed = controller.displayNextQuestion();
 
         assertTrue(isQuestionDisplayed);
-        verify(presentation).displayQuestionText(anyString(), anyInt());
+        verify(presentation).displayQuestionText(anyString(), anyInt(), anyString());
     }
 
     @Test
@@ -68,9 +68,11 @@ class QuizTest {
 
         int possibleAnswer = dummyQuestion.getAnswer();
 
-        controller.validateAnswer(possibleAnswer);
+        boolean isValid = controller.validateAnswer(possibleAnswer);
 
-        verify(presentation, times(0)).displayIncorrectAnswer(anyString(), anyInt());
+        assertTrue(isValid);
+        verify(state).incrementScore();
+        verify(presentation, times(0)).displayIncorrectAnswer(anyString(), anyInt(), anyString());
     }
 
     @Test

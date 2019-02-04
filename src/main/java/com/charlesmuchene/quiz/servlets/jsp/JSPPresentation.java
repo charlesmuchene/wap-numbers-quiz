@@ -27,39 +27,40 @@ public class JSPPresentation implements Presentation {
     }
 
     @Override
-    public void displayQuestionText(String text, int score) {
-        forwardRequest(RequestState.DISPLAY, text, score);
+    public void displayQuestionText(String text, int score, String hint) {
+        forwardRequest(RequestState.DISPLAY, text, score, hint);
     }
 
     @Override
     public void questionsOver(int score) {
-        forwardRequest(RequestState.OVER, "", score);
+        forwardRequest(RequestState.OVER, "", score, "");
     }
 
     @Override
-    public void displayIncorrectAnswer(String text, int score) {
-        forwardRequest(RequestState.INCORRECT, text, score);
+    public void displayIncorrectAnswer(String text, int score, String hint) {
+        forwardRequest(RequestState.INCORRECT, text, score, hint);
     }
 
     @Override
-    public void displayInputAsInvalid(String text, int score) {
-        forwardRequest(RequestState.INVALID, text, score);
+    public void displayInputAsInvalid(String text, int score, String hint) {
+        forwardRequest(RequestState.INVALID, text, score, hint);
     }
 
     /**
      * Forward request to jsp
-     *
-     * @param state {@link Presentation.RequestState} instance
+     *  @param state {@link RequestState} instance
      * @param text  Question text
      * @param score Score
+     * @param hint Question's hint
      */
-    private void forwardRequest(RequestState state, String text, int score) {
+    private void forwardRequest(RequestState state, String text, int score, String hint) {
 
         request.setAttribute("incorrect", state == RequestState.INCORRECT);
         request.setAttribute("invalid", state == RequestState.INVALID);
         request.setAttribute("over", state == RequestState.OVER);
         request.setAttribute("text", text);
         request.setAttribute("score", score);
+        request.setAttribute("hint", hint);
 
         try {
             request.getRequestDispatcher("quiz.jsp").forward(request, response);

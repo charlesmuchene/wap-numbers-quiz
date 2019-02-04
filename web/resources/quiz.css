@@ -12,7 +12,7 @@ main {
     border-radius: 20px;
 }
 
-#start-button, #next-button {
+#next-button, #hint-button {
     border-radius: 10px;
     margin-top: 20px;
     border: none;
@@ -53,4 +53,17 @@ form {
 
 .error {
     color: red;
+}
+
+#hint {
+    display: none;
+}
+
+#hint-span {
+    color: darkcyan;
+}
+
+#hint-button {
+    background-color: darkcyan;
+    margin-left: 10px;
 }

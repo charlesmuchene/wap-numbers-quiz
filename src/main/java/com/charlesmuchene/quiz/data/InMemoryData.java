@@ -14,11 +14,13 @@ public class InMemoryData implements QuestionDAO {
 
     private Map<Integer, Question> map = new ConcurrentHashMap<Integer, Question>() {
         {
-            put(1, new Question(1, "[3, 1, 4, 1, 5, ? ]", 9));
-            put(2, new Question(2, "[1, 1, 2, 3, 5, ? ]", 8));
-            put(3, new Question(3, "[1, 4, 9, 16, 25, ? ]", 36));
-            put(4, new Question(4, "[2, 3, 5, 7, 11, ? ]", 13));
-            put(5, new Question(5, "[1, 2, 4, 8, 16, ? ]", 32));
+            put(1, new Question(1, "[3, 1, 4, 1, 5, ? ]", 9, "The value of PI"));
+            put(2, new Question(2, "[1, 1, 2, 3, 5, ? ]", 8, "Fibonacci numbers"));
+            put(3, new Question(3, "[1, 4, 9, 16, 25, ? ]", 36, "Square of natural numbers"));
+            put(4, new Question(4, "[2, 3, 5, 7, 11, ? ]", 13, "Prime numbers"));
+            put(5, new Question(5, "[1, 2, 4, 8, 16, ? ]", 32, "A doubling effect"));
+            put(6, new Question(6, "[0, 1, 0, 1, 0, 1, ?]", 0, "Alternating"));
+            put(7, new Question(7, "[6, 5, 4, 3, 2, 1, ?]", 0, "Backwards"));
         }
     };
 

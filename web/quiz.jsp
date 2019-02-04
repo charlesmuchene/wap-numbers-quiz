@@ -7,12 +7,13 @@
 <body>
 <header><h1>The Number Quiz. Enjoy!</h1></header>
 <main>
-<% if ((boolean) request.getAttribute("over")) {%>
-<jsp:include page="pages/over.jsp"/>
-<%
-} else {%>
-<jsp:include page="pages/display.jsp"/>
-<%}%>
+    <% if ((boolean) request.getAttribute("over")) {%>
+    <jsp:include page="pages/over.jsp"/>
+    <%
+    } else {%>
+    <jsp:include page="pages/display.jsp"/>
+    <%}%>
+    <script src="resources/quiz.js"></script>
 </main>
 </body>
 </html>
